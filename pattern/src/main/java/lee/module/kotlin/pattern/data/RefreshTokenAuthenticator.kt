@@ -7,40 +7,34 @@ import okhttp3.Route
 import java.net.HttpURLConnection
 
 class RefreshTokenAuthenticator constructor(
-    private val accessTokenProvider: () -> String,
-    private val refreshTokenJob: () -> Unit,
+    private val refreshTokenJob: () -> String, // Return accessToken
     private val onRefreshFail: ((Exception) -> Unit)? = null
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
             synchronized(this) {
-                return when {
-                    isAccessTokenUpdated(response.request()) -> updateRequestHeaderAuthorization(
-                        response.request()
-                    )
-                    refreshToken() -> updateRequestHeaderAuthorization(response.request())
-                    else -> response.request()
+                return exeRefreshToken().takeUnless { it.isNullOrBlank() }?.let {
+                    updateRequestHeaderAuthorization(response.request(), it)
                 }
             }
         }
         return null
     }
 
-    private fun updateRequestHeaderAuthorization(request: Request): Request =
-        request.updateRequestHeaderAuthorization(accessTokenProvider.invoke())
-
-    private fun isAccessTokenUpdated(request: Request): Boolean {
-        return request.hasNewAccessToken(accessTokenProvider.invoke())
+    private fun updateRequestHeaderAuthorization(request: Request, accessToken: String): Request {
+        return request.updateRequestHeaderAuthorization(accessToken)
     }
 
-    private fun refreshToken(): Boolean {
+    /**
+     * Return accessToken if success, null or empty if error
+     */
+    private fun exeRefreshToken(): String? {
         return try {
             refreshTokenJob.invoke()
-            true
         } catch (e: Exception) {
             onRefreshFail?.invoke(e)
-            false
+            null
         }
     }
 }
