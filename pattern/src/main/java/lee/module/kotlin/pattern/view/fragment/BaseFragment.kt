@@ -8,14 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.viewbinding.ViewBinding
 import lee.module.kotlin.pattern.view.ILoading
-import lee.module.kotlin.pattern.view.IState
+import lee.module.kotlin.pattern.view.INavigator
 import lee.module.kotlin.pattern.view.IView
 import lee.module.kotlin.pattern.view.hideSoftKeyboard
 import lee.module.kotlin.pattern.view.viewmodel.BaseViewModel
 import lee.module.kotlin.pattern.view.viewmodel.IsLoading
 
-abstract class BaseFragment<VB : ViewBinding> : Fragment(), IState, ILoading,
-    IView {
+abstract class BaseFragment<VB : ViewBinding> : Fragment(), INavigator, ILoading, IView {
 
     protected abstract val viewModel: BaseViewModel
 
@@ -49,7 +48,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment(), IState, ILoading,
     }
 
     override fun initViewModel() {
-        viewModel.uiState observe { uiNavigator.invoke(it) }
+        viewModel.navigator observe { navigator.invoke(it) }
         viewModel.showLoading observe ::bindLoading
     }
 

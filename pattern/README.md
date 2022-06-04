@@ -23,8 +23,8 @@ dependencies {
  * Guarantees that once consumed event is not redelivered
  */
  
-protected val _uiState: MutableLiveData<UiState> = EventLiveData<UiState>()
-val uiState: LiveData<UiState> = _uiState
+protected val _navigator: MutableLiveData<navigator> = EventLiveData<NavigationEvent>()
+val navigator: LiveData<NavigationEvent> = _navigator
 ```
 
 ### SingleLiveData
@@ -39,6 +39,6 @@ A lifecycle-aware observable that sends only new updates after subscription, use
  * <p>
  * Note that only one observer is going to be notified of changes.
  
-protected val _uiState: MutableLiveData<UiState> = SingleLiveData<UiState>()
-val uiState: LiveData<UiState> = _uiState
+protected val _navigator: MutableLiveData<NavigationEvent> = SingleLiveData<NavigationEvent>()
+val navigator: LiveData<NavigationEvent> = _navigator
 ```
