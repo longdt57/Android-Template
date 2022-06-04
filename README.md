@@ -1,5 +1,5 @@
 # kotlin-ext
-[![Generic badge](https://img.shields.io/badge/Version-1.0.0-<green>.svg)](https://github.com/longdt57/kotlin-ext/releases/latest)
+[![Generic badge](https://img.shields.io/badge/Version-1.0.4-<green>.svg)](https://github.com/longdt57/kotlin-ext/releases/latest)
 
 Extension, Delegation, and more...
 
