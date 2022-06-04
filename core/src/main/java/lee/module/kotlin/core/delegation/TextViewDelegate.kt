@@ -6,7 +6,7 @@ import androidx.annotation.IdRes
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-private fun View.delegateTextView(@IdRes id: Int) = object : ReadWriteProperty<Any, CharSequence?> {
+fun View.delegateTextView(@IdRes id: Int) = object : ReadWriteProperty<Any, CharSequence?> {
 
     override fun getValue(thisRef: Any, property: KProperty<*>): CharSequence? =
         findViewById<TextView>(id).text
