@@ -37,11 +37,11 @@ open class EncryptedSharedPreferences constructor(
         )
     }
 
-    protected fun remove(key: String) {
+    fun remove(key: String) {
         sharedPreferences.execute { it.remove(key) }
     }
 
-    protected fun clearAll() {
+    fun clearAll() {
         sharedPreferences.execute { it.clear() }
     }
 }
