@@ -25,7 +25,7 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    protected fun showLoading(isCancelable: Boolean = true) {
+    protected fun showLoading() {
         launchInMain {
             _showLoading.value = true
         }
