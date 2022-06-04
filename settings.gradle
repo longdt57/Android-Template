@@ -13,6 +13,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Kotlin Ext"
-include ':app'
 include ':core'
 include ':pattern'
