@@ -36,4 +36,12 @@ open class EncryptedSharedPreferences constructor(
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
     }
+
+    protected fun remove(key: String) {
+        sharedPreferences.execute { it.remove(key) }
+    }
+
+    protected fun clearAll() {
+        sharedPreferences.execute { it.clear() }
+    }
 }
