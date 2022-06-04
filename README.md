@@ -25,11 +25,16 @@ class Fragment {
 }
 
 // SharedPreferences
-val preference: SharedPreferences...
-var title: String by preference.args(defaultValue = "") // use argsNullable for Nullable
+var title: String by sharedPreference.args(defaultValue = "") // use argsNullable for Nullable
 
 // WeakReference
 var title: String? by weakReference(null)
+
+// TextView
+class CustomView : ... {
+    var title: String by delegateTextView(R.id.title)
+}
+
 ```
 
 ### Extension
