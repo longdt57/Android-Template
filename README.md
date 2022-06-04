@@ -1,7 +1,10 @@
 # kotlin-ext
-[![Generic badge](https://img.shields.io/badge/Version-1.0.4-<green>.svg)](https://github.com/longdt57/kotlin-ext/releases/latest)
+[![Generic badge](https://img.shields.io/badge/Version-1.1.0-<green>.svg)](https://github.com/longdt57/kotlin-ext/releases/latest)
 
-Extension, Delegation, and more...
+- Delegation & Extension
+- [Pattern Page HERE](https://github.com/longdt57/kotlin-ext/tree/develop/pattern)
+
+
 
 ## Delegation & Extension
 
@@ -13,7 +16,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.github.longdt57.kotlin-ext:core:{version}'
+  implementation 'com.github.longdt57:kotlin-ext:{version}'
 }
 ```
 
@@ -52,6 +55,3 @@ class CustomView : ... {
 - Context.openPlayStore(pkg)
 - Context.gotoGMap(address)
 ```
-
-## Pattern
-[Docs HERE](https://github.com/longdt57/kotlin-ext/tree/develop/pattern)
