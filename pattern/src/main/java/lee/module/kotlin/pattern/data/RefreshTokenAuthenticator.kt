@@ -6,15 +6,18 @@ import okhttp3.Response
 import okhttp3.Route
 import java.net.HttpURLConnection
 
-class RefreshTokenAuthenticator constructor(
-    private val refreshTokenJob: () -> String, // Return accessToken
-    private val onRefreshFail: ((Exception) -> Unit)? = null
-) : Authenticator {
+abstract class RefreshTokenAuthenticator : Authenticator {
+
+    /**
+     * @return accessToken, or null if fail
+     */
+    abstract fun refreshToken(): String?
+    abstract fun onRefreshTokenFail(ex: Exception)
 
     override fun authenticate(route: Route?, response: Response): Request? {
         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
             synchronized(this) {
-                return exeRefreshToken().takeUnless { it.isNullOrBlank() }?.let {
+                return executeRefreshToken().takeUnless { it.isNullOrBlank() }?.let {
                     updateRequestHeaderAuthorization(response.request(), it)
                 }
             }
@@ -29,11 +32,11 @@ class RefreshTokenAuthenticator constructor(
     /**
      * Return accessToken if success, null or empty if error
      */
-    private fun exeRefreshToken(): String? {
+    private fun executeRefreshToken(): String? {
         return try {
-            refreshTokenJob.invoke()
+            refreshToken()
         } catch (e: Exception) {
-            onRefreshFail?.invoke(e)
+            onRefreshTokenFail(e)
             null
         }
     }
