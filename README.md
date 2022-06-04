@@ -49,4 +49,4 @@ var title: String? by weakReference(null)
 ```
 
 ## Pattern
-[Docs HERE](https://github.com/longdt57/kotlin-ext/tree/1.0.0-alpha1/pattern)
+[Docs HERE](https://github.com/longdt57/kotlin-ext/tree/develop/pattern)
