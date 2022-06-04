@@ -19,6 +19,24 @@ abstract class BaseViewModel : ViewModel() {
     val showLoading: LiveData<IsLoading>
         get() = _showLoading
 
+    fun navigateTo(event: NavigationEvent) {
+        launchInMain {
+            _navigator.value = event
+        }
+    }
+
+    protected fun showLoading(isCancelable: Boolean = true) {
+        launchInMain {
+            _showLoading.value = true
+        }
+    }
+
+    protected fun hideLoading() {
+        launchInMain {
+            _showLoading.value = false
+        }
+    }
+
     fun <T> UseCaseResult<T>.onSuccess(callback: (T) -> Unit): UseCaseResult<T> {
         if (this is UseCaseResult.Success) {
             launchInMain {
