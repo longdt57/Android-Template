@@ -1,5 +1,5 @@
 # Pattern
-[![Generic badge](https://img.shields.io/badge/Version-1.1.0-<green>.svg)](https://github.com/longdt57/kotlin-ext/releases/latest)
+[![Version](https://jitpack.io/v/longdt57/kotlin-ext.svg)](https://github.com/longdt57/kotlin-ext/releases)
 
 Follow the MVVM + Clean Architecture + Coroutines
 Refers:
