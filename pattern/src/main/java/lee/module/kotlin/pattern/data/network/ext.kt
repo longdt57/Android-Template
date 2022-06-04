@@ -1,10 +1,8 @@
-package lee.module.kotlin.pattern.data
+package lee.module.kotlin.pattern.data.network
 
 import okhttp3.Request
 
 internal const val HEADER_AUTHORIZATION = "Authorization"
-
-internal fun Request.getHeaderAuthorization(): String? = header(HEADER_AUTHORIZATION)
 
 internal fun Request.updateRequestHeaderAuthorization(accessToken: String): Request {
     val authorizationHeader = "Bearer $accessToken"
@@ -12,8 +10,4 @@ internal fun Request.updateRequestHeaderAuthorization(accessToken: String): Requ
         .removeHeader(HEADER_AUTHORIZATION)
         .addHeader(HEADER_AUTHORIZATION, authorizationHeader)
         .build()
-}
-
-internal fun Request.hasNewAccessToken(localAccessToken: String): Boolean {
-    return getHeaderAuthorization().orEmpty().contains(localAccessToken).not()
 }

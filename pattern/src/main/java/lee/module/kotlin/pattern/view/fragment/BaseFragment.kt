@@ -43,16 +43,16 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment(), INavigator, ILoading
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        bindViewEvents()
-        bindViewModel()
+        setupViewEvents()
+        observeViewModel()
     }
 
-    override fun initViewModel() {
+    override fun observeViewModel() {
         viewModel.navigator observe { navigator.invoke(it) }
         viewModel.showLoading observe ::bindLoading
     }
 
-    override fun bindViewEvents() {
+    override fun setupViewEvents() {
         requireNotNull(view).setOnClickListener {
             requireActivity().hideSoftKeyboard()
         }

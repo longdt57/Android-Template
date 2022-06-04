@@ -1,5 +1,7 @@
 package lee.module.kotlin.pattern.view.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +12,7 @@ import lee.module.kotlin.pattern.domain.UseCaseResult
 import lee.module.kotlin.pattern.livedata.EventLiveData
 import lee.module.kotlin.pattern.view.model.NavigationEvent
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
 
     protected val _navigator = EventLiveData<NavigationEvent>()
     val navigator: LiveData<NavigationEvent> = _navigator

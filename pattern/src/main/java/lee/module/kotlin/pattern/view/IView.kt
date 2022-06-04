@@ -43,7 +43,7 @@ interface IView {
      *
      * This is called right after [BaseFragment.onViewCreated]
      */
-    fun bindViewEvents()
+    fun setupViewEvents()
 
     /**
      * The initial callback where you want to place your view events functions.
@@ -53,5 +53,5 @@ interface IView {
      *
      * This is called right after [BaseFragment.onViewCreated]
      */
-    fun bindViewModel()
+    fun observeViewModel()
 }

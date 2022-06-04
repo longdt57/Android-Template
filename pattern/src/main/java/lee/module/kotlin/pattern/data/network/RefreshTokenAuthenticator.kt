@@ -1,4 +1,4 @@
-package lee.module.kotlin.pattern.data
+package lee.module.kotlin.pattern.data.network
 
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -18,15 +18,11 @@ abstract class RefreshTokenAuthenticator : Authenticator {
         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
             synchronized(this) {
                 return executeRefreshToken().takeUnless { it.isNullOrBlank() }?.let {
-                    updateRequestHeaderAuthorization(response.request(), it)
+                    response.request().updateRequestHeaderAuthorization(it)
                 }
             }
         }
         return null
-    }
-
-    private fun updateRequestHeaderAuthorization(request: Request, accessToken: String): Request {
-        return request.updateRequestHeaderAuthorization(accessToken)
     }
 
     /**
