@@ -4,7 +4,7 @@ import java.lang.ref.WeakReference
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-fun <T : Any> weakReference(value: T?): ReadWriteProperty<Any, T?> =
+fun <T : Any> weakReference(value: T? = null): ReadWriteProperty<Any, T?> =
     object : ReadWriteProperty<Any, T?> {
         private var reference: WeakReference<T> = WeakReference(value)
 
