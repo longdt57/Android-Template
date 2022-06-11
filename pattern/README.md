@@ -94,7 +94,7 @@ class UserUseCase: BaseUseCase<Unit, User> {
 
 ### ViewModel
 ```
-- ViewModel.launch // execute code in Dispatchers.IO
+- ViewModel.launch // Same to viewModelScope.launch
 - ViewModel.launchInMain // execute code in Dispatchers.Main
 
 class HomeViewModel(app: Application, private val userUseCase: UserUseCase): BaseViewModel(app) {
