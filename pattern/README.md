@@ -27,8 +27,8 @@ dependencies {
  * Guarantees that once consumed event is not redelivered
  */
  
-protected val _navigator: MutableLiveData<navigator> = EventLiveData<NavigationEvent>()
-val navigator: LiveData<NavigationEvent> = _navigator
+protected val _uistate: MutableLiveData<Uistate> = EventLiveData<Uistate>()
+val uistate: LiveData<UiState> = _uistate
 ```
 
 ### SingleLiveData
@@ -43,8 +43,8 @@ A lifecycle-aware observable that sends only new updates after subscription, use
  * <p>
  * Note that only one observer is going to be notified of changes.
  
-protected val _navigator: MutableLiveData<NavigationEvent> = SingleLiveData<NavigationEvent>()
-val navigator: LiveData<NavigationEvent> = _navigator
+protected val _uiState: MutableLiveData<UiState> = SingleLiveData<UiState>()
+val uiState: LiveData<UiState> = _uiState
 ```
 
 ### EncryptedSharedPreferences
@@ -104,7 +104,7 @@ class HomeViewModel(app: Application, private val userUseCase: UserUseCase): Bas
           showLoading()
           
           userUseCase.invoke(Unit)
-              .onSuccess { user -> navigateTo(NavEvent) }
+              .onSuccess { user -> navigateTo(UiState) }
               .onError { exception -> // Todo handle error}
               
           hideLoading()
@@ -123,7 +123,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding> {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
         get() = FragmentHomeBinding::inflate
     
-    override val navigator: (NavEvent) -> Unit
+    override val uiStateController: (UiState) -> Unit
         get() = { event -> }
       
       

@@ -2,40 +2,40 @@ package lee.module.kotlin.pattern.view.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import lee.module.kotlin.pattern.domain.UseCaseResult
-import lee.module.kotlin.pattern.livedata.EventLiveData
-import lee.module.kotlin.pattern.view.model.NavigationEvent
+import lee.module.kotlin.pattern.view.model.UiState
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
 
-    protected val _navigator = EventLiveData<NavigationEvent>()
-    val navigator: LiveData<NavigationEvent> = _navigator
+    protected val _uiState = MutableSharedFlow<UiState>()
+    val uiState: SharedFlow<UiState> = _uiState
 
-    private val _showLoading = EventLiveData<IsLoading>()
-    val showLoading: LiveData<IsLoading>
-        get() = _showLoading
+    private val _showLoading = MutableSharedFlow<IsLoading>()
+    val showLoading: SharedFlow<IsLoading> = _showLoading
 
-    fun navigateTo(event: NavigationEvent) {
+    fun navigateTo(event: UiState) {
         launchInMain {
-            _navigator.value = event
+            _uiState.emit(event)
         }
     }
 
     protected fun showLoading() {
         launchInMain {
-            _showLoading.value = true
+            _showLoading.emit(true)
         }
     }
 
     protected fun hideLoading() {
         launchInMain {
-            _showLoading.value = false
+            _showLoading.emit(false)
         }
     }
 
@@ -60,9 +60,9 @@ abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
 }
 
 internal fun ViewModel.launch(
-    coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    context: CoroutineContext = EmptyCoroutineContext,
     job: suspend () -> Unit
-) = viewModelScope.launch(coroutineDispatcher) {
+) = viewModelScope.launch(context) {
     job.invoke()
 }
 

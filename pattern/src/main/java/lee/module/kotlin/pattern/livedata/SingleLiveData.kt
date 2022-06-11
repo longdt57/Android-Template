@@ -17,6 +17,8 @@ import java.util.concurrent.atomic.AtomicBoolean
  * explicit call to setValue() or call().
  * <p>
  * Note that only one observer is going to be notified of changes.
+ *
+ * @deprecated
  */
 class SingleLiveData<T> : MutableLiveData<T>() {
     companion object {

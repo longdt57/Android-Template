@@ -11,6 +11,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * Class representing live data that emits one-shot events
  * Guarantees that once consumed event is not redelivered
+ *
+ * @deprecated use State/Share Flow
  */
 class EventLiveData<T> : MediatorLiveData<T>() {
 

@@ -1,11 +1,11 @@
 package lee.module.kotlin.pattern.view
 
-import lee.module.kotlin.pattern.view.model.NavigationEvent
+import lee.module.kotlin.pattern.view.model.UiState
 
-interface INavigator {
+interface IUiStateController {
 
     /**
      * Handle All Screen navigator, includes error states, empty states, success state, navigate...
      */
-    val navigator: ((NavigationEvent) -> Unit)
+    val uiStateController: ((UiState) -> Unit)
 }
