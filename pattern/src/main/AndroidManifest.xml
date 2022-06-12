@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="lee.module.kotlin.pattern">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="lee.module.kotlin.pattern">
 
+    <application>
+        <activity android:name=".view.activity.FragmentActivity" />
+    </application>
 </manifest>
