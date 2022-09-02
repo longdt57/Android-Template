@@ -10,27 +10,15 @@ import androidx.fragment.app.commit
 
 open class FragmentActivity : AppCompatActivity() {
 
-    companion object {
-        private const val FRAGMENT_TAG = "FRAGMENT_TAG"
-        internal const val KEY_FRAGMENT = "KEY_FRAGMENT"
-
-        fun getIntent(
-            context: Context,
-            clazz: Class<out Fragment>,
-            args: Bundle? = null,
-        ): Intent {
-            val intent = Intent(context, FragmentActivity::class.java)
-            intent.putExtra(KEY_FRAGMENT, clazz.name)
-            if (args != null) intent.putExtras(args)
-            return intent
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) == null) {
-            addFragment()
+        when (val fragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG)) {
+            null -> addFragment()
+            else -> supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace(android.R.id.content, fragment, FRAGMENT_TAG)
+            }
         }
     }
 
@@ -47,6 +35,22 @@ open class FragmentActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Toast.makeText(this, e.message.orEmpty(), Toast.LENGTH_SHORT).show()
             return
+        }
+    }
+
+    companion object {
+        private const val FRAGMENT_TAG = "FRAGMENT_TAG"
+        internal const val KEY_FRAGMENT = "KEY_FRAGMENT"
+
+        fun getIntent(
+            context: Context,
+            clazz: Class<out Fragment>,
+            args: Bundle? = null,
+        ): Intent {
+            val intent = Intent(context, FragmentActivity::class.java)
+            intent.putExtra(KEY_FRAGMENT, clazz.name)
+            if (args != null) intent.putExtras(args)
+            return intent
         }
     }
 }

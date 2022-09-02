@@ -4,67 +4,68 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import lee.module.kotlin.pattern.domain.UseCaseResult
+import lee.module.kotlin.pattern.view.model.MessageUiState
 import lee.module.kotlin.pattern.view.model.UiState
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
 
-    protected val _uiState = MutableSharedFlow<UiState>()
+    protected val _uiState = MutableSharedFlow<UiState>(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val uiState: SharedFlow<UiState> = _uiState
 
-    private val _showLoading = MutableSharedFlow<IsLoading>()
-    val showLoading: SharedFlow<IsLoading> = _showLoading
+    protected val _loading = MutableSharedFlow<IsLoading>(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val loading: SharedFlow<IsLoading> = _loading
 
-    fun navigateTo(event: UiState) {
+    fun postUiState(event: UiState) {
         launchInMain {
             _uiState.emit(event)
         }
     }
 
+    protected fun showToast(text: String) {
+        launchInMain {
+            _uiState.emit(MessageUiState.ToastUiState(text))
+        }
+    }
+
     protected fun showLoading() {
         launchInMain {
-            _showLoading.emit(true)
+            _loading.emit(true)
         }
     }
 
     protected fun hideLoading() {
         launchInMain {
-            _showLoading.emit(false)
+            _loading.emit(false)
         }
     }
 
-    fun <T> UseCaseResult<T>.onSuccess(callback: (T) -> Unit): UseCaseResult<T> {
-        if (this is UseCaseResult.Success) {
-            launchInMain {
-                callback.invoke(data)
-            }
-        }
-        return this
-    }
-
-    fun <T> UseCaseResult<T>.onError(callback: (Throwable) -> Unit): UseCaseResult<T> {
-        if (this is UseCaseResult.Error) {
-            launchInMain {
-                callback.invoke(exception)
-            }
-        }
+    protected fun <T> Flow<T>.addLoadingObserver(): Flow<T> {
+        onStart { showLoading() }
+        onCompletion { hideLoading() }
         return this
     }
 
 }
 
-internal fun ViewModel.launch(
+
+fun ViewModel.launch(
     context: CoroutineContext = EmptyCoroutineContext,
-    job: suspend () -> Unit
-) = viewModelScope.launch(context) {
-    job.invoke()
-}
+    start: CoroutineStart = CoroutineStart.DEFAULT,
+    block: suspend CoroutineScope.() -> Unit,
+) = viewModelScope.launch(context, start, block)
 
-internal fun ViewModel.launchInMain(job: suspend () -> Unit) = launch(Dispatchers.Main, job)
+fun ViewModel.launchInIO(block: suspend CoroutineScope.() -> Unit) = launch(Dispatchers.IO, block = block)
 
+fun ViewModel.launchInMain(block: suspend CoroutineScope.() -> Unit) = launch(Dispatchers.Main, block = block)

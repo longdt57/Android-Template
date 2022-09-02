@@ -3,21 +3,19 @@ package lee.module.kotlin.pattern.view.activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import lee.module.kotlin.pattern.view.ILoading
-import lee.module.kotlin.pattern.view.IUiStateController
+import lee.module.kotlin.pattern.view.IUiState
 import lee.module.kotlin.pattern.view.IView
+import lee.module.kotlin.pattern.view.launchCollect
+import lee.module.kotlin.pattern.view.model.MessageUiState
+import lee.module.kotlin.pattern.view.model.UiState
 import lee.module.kotlin.pattern.view.viewmodel.BaseViewModel
 import lee.module.kotlin.pattern.view.viewmodel.IsLoading
 
-abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IUiStateController, ILoading, IView {
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IUiState, ILoading, IView {
 
     protected abstract val viewModel: BaseViewModel
 
@@ -41,8 +39,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IUiStateCon
     }
 
     override fun observeViewModel() {
-        viewModel.uiState observe { uiStateController.invoke(it) }
-        viewModel.showLoading observe ::bindLoading
+        viewModel.uiState observe ::handleUiState
+        viewModel.loading observe ::bindLoading
     }
 
     override fun onDestroy() {
@@ -58,7 +56,13 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IUiStateCon
         }
     }
 
-    @Deprecated("Use collect with State/Share Flow")
+    override fun handleUiState(uiState: UiState) {
+        when (uiState) {
+            is MessageUiState -> uiState.showMessage(this)
+        }
+    }
+
+    @Deprecated("Use collect with State/Share Flow", ReplaceWith("observe(this@BaseActivity) { action(it) }"))
     protected inline infix fun <T> LiveData<T>.observe(crossinline action: (T) -> Unit) {
         observe(this@BaseActivity) {
             action(it)
@@ -66,12 +70,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IUiStateCon
     }
 
     protected inline infix fun <T> Flow<T>.observe(crossinline action: (T) -> Unit) {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                collect {
-                    action.invoke(it)
-                }
-            }
+        launchCollect(this@BaseActivity) {
+            action(it)
         }
     }
 }

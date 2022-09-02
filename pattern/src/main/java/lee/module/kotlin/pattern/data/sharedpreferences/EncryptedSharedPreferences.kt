@@ -10,10 +10,10 @@ import androidx.security.crypto.MasterKey
 
 open class EncryptedSharedPreferences constructor(
     applicationContext: Context,
-    prefName: String = applicationContext.packageName
-) {
+    prefName: String = applicationContext.packageName,
+) : BaseSharedPreferences(applicationContext, prefName) {
 
-    val sharedPreferences: SharedPreferences
+    final override val sharedPreferences: SharedPreferences
 
     init {
         val masterKeyBuilder = MasterKey.Builder(applicationContext)
@@ -35,13 +35,5 @@ open class EncryptedSharedPreferences constructor(
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
-    }
-
-    fun remove(key: String) {
-        sharedPreferences.execute { it.remove(key) }
-    }
-
-    fun clearAll() {
-        sharedPreferences.execute { it.clear() }
     }
 }
