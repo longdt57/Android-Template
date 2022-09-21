@@ -1,4 +1,4 @@
-package lee.module.kotlin.pattern.data.sharedpreferences
+package lee.module.kotlin.core.data.sharedpreferences
 
 import android.content.SharedPreferences
 

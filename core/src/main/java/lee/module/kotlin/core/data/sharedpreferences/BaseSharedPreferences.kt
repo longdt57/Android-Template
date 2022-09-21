@@ -1,17 +1,21 @@
-package lee.module.kotlin.pattern.data.sharedpreferences
+package lee.module.kotlin.core.data.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 open class BaseSharedPreferences constructor(
     applicationContext: Context,
-    prefName: String
+    prefName: String? = null
 ) {
 
     open val sharedPreferences: SharedPreferences by lazy {
-        applicationContext.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+        when {
+            prefName.isNullOrBlank() -> PreferenceManager.getDefaultSharedPreferences(applicationContext)
+            else -> applicationContext.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+        }
     }
 
     inline fun <reified T> argsNullable(

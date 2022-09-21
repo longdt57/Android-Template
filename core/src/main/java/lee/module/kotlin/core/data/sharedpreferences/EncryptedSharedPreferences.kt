@@ -1,5 +1,6 @@
-package lee.module.kotlin.pattern.data.sharedpreferences
+package lee.module.kotlin.core.data.sharedpreferences
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
@@ -8,9 +9,10 @@ import android.security.keystore.KeyProperties
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 
+@SuppressLint("ObsoleteSdkInt")
 open class EncryptedSharedPreferences constructor(
     applicationContext: Context,
-    prefName: String = applicationContext.packageName,
+    prefName: String = applicationContext.packageName + "_encrypted_preferences",
 ) : BaseSharedPreferences(applicationContext, prefName) {
 
     final override val sharedPreferences: SharedPreferences

@@ -1,16 +1,13 @@
 package lee.module.kotlin.sample
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.widget.EditText
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import lee.module.kotlin.core.data.sharedpreferences.EncryptedSharedPreferences
 import lee.module.kotlin.core.delegation.argsNullable
-import lee.module.kotlin.pattern.data.sharedpreferences.EncryptedSharedPreferences
 
-@RequiresApi(Build.VERSION_CODES.M)
 class MainActivity : AppCompatActivity() {
 
     private lateinit var encryptedPreference: CustomEncrypt

@@ -1,4 +1,4 @@
-package lee.module.kotlin.pattern.data.network.error
+package lee.module.kotlin.core.data.network.error
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,6 +1,6 @@
-package lee.module.kotlin.pattern.data.network.error
+package lee.module.kotlin.core.data.network.error
 
-import lee.module.kotlin.pattern.R
+import lee.module.kotlin.core.R
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
