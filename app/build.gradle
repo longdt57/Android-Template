@@ -1,25 +1,38 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+
+    // Add the Crashlytics Gradle plugin
+    id 'com.google.firebase.crashlytics'
+
+    // code analysis
+    id 'io.gitlab.arturbosch.detekt'
 }
 
 android {
-    compileSdk 32
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "lee.module.kotlin.sample"
-        minSdk 21
-        targetSdk 32
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {}
+        staging {
+            initWith debug
+            applicationIdSuffix ".staging"
         }
     }
     compileOptions {
@@ -29,18 +42,66 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.0'
     implementation project(":core")
+    implementation project(":analytics")
     implementation project(":pattern")
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.activity:activity-compose:1.4.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+}
+
+// ./gradlew detekt
+detekt {
+    parallel = false
+    config = files("detekt-config.yml")
+    buildUponDefaultConfig = false
+    disableDefaultRuleSets = false
+
+    debug = false
+    ignoreFailures = false
+
+    ignoredBuildTypes = ["release"]
+    config = files("../detekt-config.yml")
+}
+
+tasks.named("detekt").configure {
+    reports {
+        // Enable/Disable XML report (default: true)
+        xml.required.set(true)
+        xml.outputLocation.set(file("build/reports/detekt.xml"))
+        // Enable/Disable HTML report (default: true)
+        html.required.set(true)
+        html.outputLocation.set(file("build/reports/detekt.html"))
+    }
 }
