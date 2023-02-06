@@ -3,6 +3,8 @@ package lee.module.kotlin.sample
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.fragment.app.Fragment
+import lee.module.kotlin.core.data.sharedpreferences.args
+import lee.module.kotlin.core.data.sharedpreferences.argsNullable
 import lee.module.kotlin.core.delegation.args
 import lee.module.kotlin.core.delegation.argsNullable
 import lee.module.kotlin.core.delegation.weakReference

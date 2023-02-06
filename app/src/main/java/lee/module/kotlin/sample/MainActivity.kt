@@ -6,7 +6,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import lee.module.kotlin.core.data.sharedpreferences.EncryptedSharedPreferences
-import lee.module.kotlin.core.delegation.argsNullable
+import lee.module.kotlin.core.data.sharedpreferences.argsNullable
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package lee.module.design.base.view
+package lee.module.design.base.presenter.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kotlinx.coroutines.flow.Flow
-import lee.module.design.base.viewmodel.BaseViewModel
+import lee.module.design.base.presenter.viewmodel.BaseViewModel
 
 abstract class BaseComposeFragment : Fragment(), BaseComposeCallbacks {
 

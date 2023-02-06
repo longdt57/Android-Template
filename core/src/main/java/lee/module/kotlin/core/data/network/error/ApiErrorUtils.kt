@@ -1,16 +1,12 @@
 package lee.module.kotlin.core.data.network.error
 
-import lee.module.kotlin.core.R
-import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import lee.module.kotlin.core.util.GsonUtil
+import retrofit2.HttpException
 
 object ApiErrorUtils {
-    const val MESSAGE = "message"
-    const val CUSTOM_MESSAGE = "customMessage"
-    const val INVALID_FIELD_NAMES = "invalidFieldNames"
-    const val VIOLATION = "violation"
 
     fun getError(throwable: Throwable): ApiError {
         return when (throwable) {

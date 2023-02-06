@@ -1,4 +1,4 @@
-package lee.module.kotlin.core.data.network.error
+package lee.module.kotlin.core.util
 
 import com.google.gson.Gson
 

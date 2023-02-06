@@ -1,8 +1,7 @@
-package lee.module.design.base.view
+package lee.module.design.base.presenter.view
 
 import androidx.compose.runtime.Composable
-import lee.module.design.LoadingProgress
-import lee.module.design.base.viewmodel.IsLoading
+import lee.module.design.base.presenter.viewmodel.IsLoading
 
 /**
  * An interface provide abstract commitments for the implemented class

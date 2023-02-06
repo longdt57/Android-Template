@@ -1,4 +1,4 @@
-package lee.module.design
+package lee.module.design.base.widgets
 
 import android.content.Context
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +17,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerView
+import lee.module.design.base.presenter.view.OnLifecycleEvent
 
 @Composable
 fun ComposeVideoPlayer(videoUrl: String, listener: Player.Listener? = null) {

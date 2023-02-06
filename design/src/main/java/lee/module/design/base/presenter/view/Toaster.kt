@@ -1,4 +1,4 @@
-package lee.module.design.base.view
+package lee.module.design.base.presenter.view
 
 import android.content.Context
 import android.widget.Toast

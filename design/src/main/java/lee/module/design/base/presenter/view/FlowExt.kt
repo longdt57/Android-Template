@@ -1,4 +1,4 @@
-package lee.module.design.base.view
+package lee.module.design.base.presenter.view
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner

@@ -1,4 +1,4 @@
-package lee.module.design
+package lee.module.design.base.presenter.view
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect

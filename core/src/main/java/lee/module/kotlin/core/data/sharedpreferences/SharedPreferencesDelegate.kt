@@ -1,8 +1,9 @@
-package lee.module.kotlin.core.delegation
+package lee.module.kotlin.core.data.sharedpreferences
 
 import android.content.SharedPreferences
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
+import lee.module.kotlin.core.delegation.getKey
 
 inline fun <reified T> SharedPreferences.argsNullable(
     key: String? = null,

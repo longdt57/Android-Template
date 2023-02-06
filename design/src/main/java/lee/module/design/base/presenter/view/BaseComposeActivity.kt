@@ -1,4 +1,4 @@
-package lee.module.design.base.view
+package lee.module.design.base.presenter.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,7 +8,7 @@ import androidx.annotation.CallSuper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.flow.Flow
-import lee.module.design.base.viewmodel.BaseViewModel
+import lee.module.design.base.presenter.viewmodel.BaseViewModel
 
 abstract class BaseComposeActivity : ComponentActivity(), BaseComposeCallbacks {
 

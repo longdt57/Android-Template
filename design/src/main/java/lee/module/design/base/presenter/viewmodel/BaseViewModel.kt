@@ -1,4 +1,4 @@
-package lee.module.design.base.viewmodel
+package lee.module.design.base.presenter.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import lee.module.design.base.model.Screen
+import lee.module.design.base.presenter.model.Screen
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -25,7 +25,7 @@ abstract class BaseViewModel : ViewModel() {
     val navigator: SharedFlow<Screen>
         get() = _navigator.asSharedFlow()
 
-    protected val _loading = MutableStateFlow<IsLoading>(false)
+    protected val _loading = MutableStateFlow(false)
     val loading: StateFlow<IsLoading> get() = _loading.asStateFlow()
 
     protected val _error = MutableSharedFlow<String>()
