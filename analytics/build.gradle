@@ -2,6 +2,9 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.firebase.crashlytics'
+
+    // code analysis
+    id 'io.gitlab.arturbosch.detekt'
 }
 
 apply from: "../library_module.gradle"

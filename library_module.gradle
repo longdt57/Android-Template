@@ -14,7 +14,7 @@ ext.libraryModuleConfig = {
             initWith debug
         }
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -28,5 +28,30 @@ ext.libraryModuleConfig = {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
+    }
+}
+
+// ./gradlew detekt
+detekt {
+    parallel = false
+    config = files("detekt-config.yml")
+    buildUponDefaultConfig = false
+    disableDefaultRuleSets = false
+
+    debug = false
+    ignoreFailures = false
+
+    ignoredBuildTypes = ["release"]
+    config = files("../detekt-config.yml")
+}
+
+tasks.named("detekt").configure {
+    reports {
+        // Enable/Disable XML report (default: true)
+        xml.required.set(true)
+        xml.outputLocation.set(file("build/reports/detekt.xml"))
+        // Enable/Disable HTML report (default: true)
+        html.required.set(true)
+        html.outputLocation.set(file("build/reports/detekt.html"))
     }
 }

@@ -5,9 +5,13 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import dagger.hilt.android.AndroidEntryPoint
 import lee.module.kotlin.core.data.sharedpreferences.EncryptedSharedPreferences
 import lee.module.kotlin.core.data.sharedpreferences.argsNullable
+import lee.module.navigation.deeplink.LeeGroupDeepLink
 
+@LeeGroupDeepLink("main")
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var encryptedPreference: CustomEncrypt

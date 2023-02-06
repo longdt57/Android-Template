@@ -1,0 +1,27 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'io.gitlab.arturbosch.detekt'
+    id 'kotlin-kapt'
+}
+
+apply from: "../library_module.gradle"
+
+android {
+    with libraryModuleConfig
+    namespace "lee.module.navigation"
+
+    kapt {
+        arguments {
+            arg("deepLink.incremental", "true")
+            arg("deepLink.customAnnotations", "lee.module.navigation.deeplink.LeeGroupDeepLink")
+        }
+    }
+}
+
+dependencies {
+
+    implementation("androidx.core:core-ktx:$core_ktx_version")
+    implementation("com.airbnb:deeplinkdispatch:$deeplinkdispatch_version")
+    kapt "com.airbnb:deeplinkdispatch-processor:$deeplinkdispatch_version"
+}

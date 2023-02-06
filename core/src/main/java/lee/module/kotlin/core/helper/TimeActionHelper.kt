@@ -1,4 +1,4 @@
-package tech.lexly.module.core.helper
+package lee.module.kotlin.core.helper
 
 class TimeActionHelper<T>(
     private var duration: Long = LONG_DURATION, private val ignoreSame: Boolean = false,
